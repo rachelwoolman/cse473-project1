@@ -130,7 +130,46 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    # create fringe set as a queue
+    # fringe will hold type (state, path to get there)
+    # create visited set
+    fringe = util.Queue()
+    visited = set()
+
+    # check if start state at goal
+    # if at goal return the empty path, since alreay at goal
+    if (problem.isGoalState(problem.getStartState())):
+        return []
+    
+
+    # if not, add it to the stack and the path of the node
+    fringe.push((problem.getStartState(), []))
+    visited.add(problem.getStartState())
+
+    # syntax is "while fringe is not empty"
+    while not fringe.isEmpty():
+        # explore next node by dequeuing 
+        #curr is of type (state, path to get there)
+        state, path = fringe.pop()
+        
+        # check if it's a goal state
+        if (problem.isGoalState(state)):
+            return path
+
+        # if not in goal state get next possible moves of this
+        # list of triples, (successor, action, stepCost) of possible states to go to 
+        successors = problem.getSuccessors(state)
+        
+
+        # add all it's possible next states to the fringe
+        for successorState, action, cost in successors:
+            # only add if its not in the visited set
+            if successorState not in visited:
+                # Add to visited
+                visited.add(successorState)
+                fringe.push((successorState, path + [action]))
+
+    return []
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
