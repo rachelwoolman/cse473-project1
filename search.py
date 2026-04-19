@@ -132,8 +132,8 @@ def breadthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
     # create fringe set as a queue
     # fringe will hold type (state, path to get there)
-    # create visited set
     fringe = util.Queue()
+    # create visited set\
     visited = set()
 
     # check if start state at goal
@@ -141,12 +141,10 @@ def breadthFirstSearch(problem):
     if (problem.isGoalState(problem.getStartState())):
         return []
     
-
-    # if not, add it to the stack and the path of the node
+    # if not, add it to the queue and the path of the node
     fringe.push((problem.getStartState(), []))
     visited.add(problem.getStartState())
 
-    # syntax is "while fringe is not empty"
     while not fringe.isEmpty():
         # explore next node by dequeuing 
         #curr is of type (state, path to get there)
@@ -159,7 +157,6 @@ def breadthFirstSearch(problem):
         # if not in goal state get next possible moves of this
         # list of triples, (successor, action, stepCost) of possible states to go to 
         successors = problem.getSuccessors(state)
-        
 
         # add all it's possible next states to the fringe
         for successorState, action, cost in successors:
@@ -174,7 +171,42 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    # create fringe set as a priority queue
+    # fringe will hold type (state, path to get there)
+    fringe = util.PriorityQueue()
+    # create visited set
+    visited = set()
+
+     # check if start state at goal
+    # if at goal return the empty path, since alreay at goal
+    if (problem.isGoalState(problem.getStartState())):
+        return []
+    
+    # if not, add it to the priority queue and the path of the node
+    # cost of inital node is 0
+    fringe.push((problem.getStartState(), [], 0), 0)
+    
+    while not fringe.isEmpty():
+        # remove lowest priority node (lowest cost)
+        # curr is of type (state, path to get there, and cost so far to get to that node)
+        state, path, costSoFar = fringe.pop()
+
+        if (state not in visited):
+            visited.add(state)
+        # check if it's a goal state
+            if (problem.isGoalState(state)):
+                return path
+            
+            # if not in goal state get next possible moves of this
+            # list of triples, (successor, action, stepCost) of possible states to go to 
+            successors = problem.getSuccessors(state)
+
+            # add all it's possible next states to the fringe
+            for successorState, action, cost in successors:
+                if successorState not in visited:
+                    newCost = costSoFar + cost
+                    fringe.push((successorState, path + [action], newCost), newCost)
+    return []
 
 def nullHeuristic(state, problem=None):
     """
