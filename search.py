@@ -90,8 +90,50 @@ def depthFirstSearch(problem):
     print("Start:", problem.getStartState())
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
-    return []
 
+    # create fringe set as a stack
+    # fringe will hold type (state, path to get there)
+    # create visited set
+    fringe = util.Stack()
+    visited = util.Set()
+
+
+    # check if start state at goal
+    # if at goal return the empty path, since alreay at goal
+    if (problem.isGoalState(problem.getStartState())):
+        return []
+    
+    # if not, add it to the stack and the path of the node
+    fringe.push((problem.getStartState(), []))
+
+
+    # explore this node by popping it off stack
+    #curr is of type (state, path to get there)
+    state, path = fringe.pop()
+
+
+    #  list of triples, (successor, action, stepCost) of possible states to go to 
+    successors = problem.getSuccessors(state)
+    
+
+    # add all it's possible next states to the fringe
+    for successorState, action, cost in successors:
+        # only add if its not in the visited set
+        if successorState not in visited:
+            fringe.push((successorState, path + [action]))
+
+
+    # pop next off of the stack
+    # everytime pop, add to the path to return
+
+    # check if its the goal state
+    # add all possible states to the stack
+
+    # 
+
+
+    return []
+    
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
