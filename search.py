@@ -87,15 +87,11 @@ def depthFirstSearch(problem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    print("Start:", problem.getStartState())
-    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
-
     # create fringe set as a stack
     # fringe will hold type (state, path to get there)
     # create visited set
     fringe = util.Stack()
-    visited = util.Set()
+    visited = set()
 
 
     # check if start state at goal
@@ -106,31 +102,28 @@ def depthFirstSearch(problem):
     # if not, add it to the stack and the path of the node
     fringe.push((problem.getStartState(), []))
 
+    # syntax is "while fringe is not empty"
+    while not fringe.isEmpty():
+        # explore this node by popping it off stack
+        #curr is of type (state, path to get there)
+        state, path = fringe.pop()
+        # Add to visited
+        visited.add(state)
+        
+        # check if it's a goal state
+        if (problem.isGoalState(state)):
+            return path
 
-    # explore this node by popping it off stack
-    #curr is of type (state, path to get there)
-    state, path = fringe.pop()
+        # if not in goal state get next possible moves of this
+        # list of triples, (successor, action, stepCost) of possible states to go to 
+        successors = problem.getSuccessors(state)
+        
 
-
-    #  list of triples, (successor, action, stepCost) of possible states to go to 
-    successors = problem.getSuccessors(state)
-    
-
-    # add all it's possible next states to the fringe
-    for successorState, action, cost in successors:
-        # only add if its not in the visited set
-        if successorState not in visited:
-            fringe.push((successorState, path + [action]))
-
-
-    # pop next off of the stack
-    # everytime pop, add to the path to return
-
-    # check if its the goal state
-    # add all possible states to the stack
-
-    # 
-
+        # add all it's possible next states to the fringe
+        for successorState, action, cost in successors:
+            # only add if its not in the visited set
+            if successorState not in visited:
+                fringe.push((successorState, path + [action]))
 
     return []
     
