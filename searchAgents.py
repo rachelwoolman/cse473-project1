@@ -381,7 +381,7 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
-    position, visitedCorners = state
+    currPosition, visitedCorners = state
 
     # find manhattan distance to all unvisited corners from this node
     # choose the max distance as the heurstic
@@ -390,14 +390,46 @@ def cornersHeuristic(state, problem):
     for corner in corners:
         if corner not in visitedCorners:
             unvisitedCorners.append(corner)
-
-    distanceToCorners = []
-    for corner in unvisitedCorners:
-        distanceToCorners.append(abs(position[0] - corner[0]) + abs(position[1] - corner[1]))
     
     if len(unvisitedCorners) == 0:
         return 0
-    return max(distanceToCorners)
+    
+    # heuristic: find approximate manhattan distance from going to closest corner each time
+    # until each corner has been visited
+
+   
+    sumShortestDistances = 0
+    # find closest corner
+    while len(unvisitedCorners) != 0:
+        cornerDistances = []
+        for corner in unvisitedCorners:
+            cornerDistances.append(abs(currPosition[0] - corner[0]) + abs(currPosition[1] - corner[1]))
+        minimumDistance = min(cornerDistances)
+
+        # find index of the minimum distance and look up the coordinates in the unvisited list
+        minimumIndex = cornerDistances.index(minimumDistance)
+        closestCorner = unvisitedCorners[minimumIndex]
+        # add the min distance to the sum of the path
+        sumShortestDistances += minimumDistance
+
+        # set closest corner to the current corner now
+        currPosition = closestCorner
+
+        #remove that corner form the unvisited list
+        unvisitedCorners.remove(closestCorner)
+
+
+    return sumShortestDistances
+
+
+
+
+    # distanceToCorners = []
+    # for corner in unvisitedCorners:
+    #     distanceToCorners.append(abs(position[0] - corner[0]) + abs(position[1] - corner[1]))
+    
+    
+    # return max(distanceToCorners)
 
 
 
