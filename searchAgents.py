@@ -295,7 +295,6 @@ class CornersProblem(search.SearchProblem):
         Returns the start state (in your state space, not the full Pacman state
         space)
         """
-        "*** YOUR CODE HERE ***"
         # starting state will be passed in as a param
         # starting state would be x,y coordinate of pacman and coordinates of no corners
         # form: (start coorinates, coorinates of visited corners)
@@ -303,7 +302,7 @@ class CornersProblem(search.SearchProblem):
 
         # check if starting position is a corner itself
         if self.startingPosition in self.corners :
-            visited = (self.startingPosition)
+            visited = (self.startingPosition,)
         # return the starting state and coordinates of any visited corners
         return (self.startingPosition, visited);
 
@@ -351,12 +350,9 @@ class CornersProblem(search.SearchProblem):
             
             #determine new state
             # check if the new position is a corner
-
                 newVisited = visited
-
                 if nextPosition in self.corners and nextPosition not in visited:
                     newVisited = visited + (nextPosition)
-            
                 successors.append(((nextPosition, newVisited), action, 1))
 
 
