@@ -525,7 +525,28 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
-    return 0
+
+    # list of coordinates where food is
+    foodList = foodGrid.asList()
+
+    # if foodList is empty return 0
+    if not foodList:
+        return 0
+
+    #  manhattan distance from current posiion to each food
+    distancesToEachFood = []
+
+    pacmanPosition, foodGrid = state
+    x, y = pacmanPosition
+
+    # for each remaining piece of food, find manhattan distance from current posiion
+    # return max distance
+    for foodCoordinate in foodList:
+        foodX, foodY = foodCoordinate
+        distancesToEachFood.append(abs(x - foodX) + abs(y - foodY))
+
+    maxDistance = max(distancesToEachFood)
+    return maxDistance
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
