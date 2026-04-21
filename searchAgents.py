@@ -381,7 +381,25 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
-    return 0 # Default to trivial solution
+    position, visitedCorners = state
+
+    # find manhattan distance to all unvisited corners from this node
+    # choose the max distance as the heurstic
+    # make list of unvisited corners
+    unvisitedCorners = []
+    for corner in corners:
+        if corner not in visitedCorners:
+            unvisitedCorners.append(corner)
+
+    distanceToCorners = []
+    for corner in unvisitedCorners:
+        distanceToCorners.append(abs(position[0] - corner[0]) + abs(position[1] - corner[1]))
+    
+    if len(unvisitedCorners) == 0:
+        return 0
+    return max(distanceToCorners)
+
+
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
